@@ -16,7 +16,7 @@ router.post('/', function (req, res, next) {
   var password = req.body.password;
   db.User.findOne({where: {username: username}}).then(user => {
     if (user && user.password === hashThePassword.cryptoThePassword(password)) {
-      var access_token = jwt.sign({username: user.username, password: user.password}, secretAccess, {expiresIn: '1h'})
+      var access_token = jwt.sign({username: user.username, password: user.password}, secretAccess, {expiresIn: 1})
       var refresh_token = jwt.sign({username: user.username, password: user.password}, secretRefresh, {expiresIn: '14 days'})
       console.log('access_token: ', access_token, 'refresh_token: ', refresh_token);
       console.log('\n', 'decode token: ', jwt.verify(refresh_token, secretRefresh))
