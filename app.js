@@ -7,8 +7,23 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var refreshTokens = require('./routes/refreshTokens');
+var login = require('./routes/login');
+
 
 var app = express();
+
+
+var jwt = require('jsonwebtoken');
+var secret = 'asdfjqwergb12ff';
+var token = jwt.sign({
+    exp: Math.floor(Date.now() / 1000) + (60 * 60),
+    username: 'username'
+}, secret);
+console.log(token);
+console.log(jwt.verify(token, secret));
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/refreshTokens', refreshTokens);
+app.use('/login', login)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

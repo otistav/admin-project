@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "sam",
+    "password": "someponyknowes1",
+    "database": "admin_project",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "sam",
+    "password": "someponyknowes1",
+    "database": "admin_project",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "sam",
+    "password": "someponyknowes1",
+    "database": "admin_project",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
