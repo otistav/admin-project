@@ -18,13 +18,14 @@ router.post('/', function (req, res, next) {
   if (req.body.refreshToken) {
     var token = req.body.refreshToken;
     var decode = jwt.verify(token, secretRefresh);
-    console.log('this is decode: ',decode);
+    console.log('this is decode: ', decode);
     Promise.resolve().then((user) => {
-      var access_token = jwt.sign({username: decode.username, password: decode.password}, secretAccess, {expiresIn: '1h'})
-      var refresh_token = jwt.sign({username: decode.username, password: decode.password}, secretRefresh, {expiresIn: '14 days'})
+      var access_token = jwt.sign({ username: decode.username, password: decode.password }, secretAccess, { expiresIn: '1h' });
+      var refresh_token = jwt.sign({ username: decode.username, password: decode.password }, secretRefresh, { expiresIn: '14 days' });
       console.log('access_token: ', access_token, 'refresh_token: ', refresh_token);
-      return {access_token: access_token, refresh_token: refresh_token}
-      
+
+      return { access_token: access_token, refresh_token: refresh_token }
+
     }).then((tokens) => {
       res.send(tokens)
     })

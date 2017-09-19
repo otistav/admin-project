@@ -14,17 +14,6 @@ var login = require('./routes/login');
 var app = express();
 
 
-var jwt = require('jsonwebtoken');
-var secret = 'asdfjqwergb12ff';
-var token = jwt.sign({
-    exp: Math.floor(Date.now() / 1000) + (60 * 60),
-    username: 'username'
-}, secret);
-console.log(token);
-console.log(jwt.verify(token, secret));
-
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
