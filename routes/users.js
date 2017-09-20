@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.post('/', accessTokenRequire, function(req, res, next) {
+router.post('/', function(req, res, next) {
 	var hashPass = hashThePassword.cryptoThePassword(req.body.password);
 	db.User.create({
 		username: req.body.username,
@@ -20,5 +20,14 @@ router.post('/', accessTokenRequire, function(req, res, next) {
 		next(err);
 	})
 });
+
+
+router.patch('/:id', accessTokenRequire, function(req, res, next) {
+	id = req.params.id;
+	db.User.findById(id).then(user => {
+		if (!user) throw new Error();
+		user.password = hashThePassword.cryptoThePassword(req.body.password)
+	}).then()
+})
 
 module.exports = router;
