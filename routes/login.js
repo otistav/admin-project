@@ -5,6 +5,10 @@ var jwt = require('jsonwebtoken');
 var secretAccess = 'asdfjqwergb12ff';
 var secretRefresh = 'wrgbnw459t3nruqfd)';
 var hashThePassword = require('../Utils/passwordHash');
+var uuidv4 = require('uuid/v4');
+var client = require('../redisClient')
+
+const HALF_A_YEAR = 60*60*24*180;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -16,10 +20,10 @@ router.post('/', function (req, res, next) {
   var password = req.body.password;
   db.User.findOne({where: {username: username}}).then(user => {
     if (user && user.password === hashThePassword.cryptoThePassword(password)) {
-      var access_token = jwt.sign({username: user.username, password: user.password}, secretAccess, {expiresIn: 1})
-      var refresh_token = jwt.sign({username: user.username, password: user.password}, secretRefresh, {expiresIn: '14 days'})
+      var access_token = jwt.sign({username: user.username, password: user.password}, secretAccess, {expiresIn: 30})
+      var refresh_token = uuidv4();
+      client.set(refresh_token, user.id, 'EX', HALF_A_YEAR);
       console.log('access_token: ', access_token, 'refresh_token: ', refresh_token);
-      console.log('\n', 'decode token: ', jwt.verify(refresh_token, secretRefresh))
       res.send({ refresh_token: refresh_token, access_token: access_token });
     }
   })
