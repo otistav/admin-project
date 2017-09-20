@@ -14,6 +14,14 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 
 
+client.setAsync("boo", "scum").then(() => {
+  console.log("HELLOOOOO")
+})
+client.delAsync("boo").then(() => {
+  console.log("HI")
+})
+
+
 var app = express();
 
 
