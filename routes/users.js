@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require('../models');
 var hashThePassword = require('../Utils/passwordHash');
 var accessTokenRequire = require('../Utils/middlewares/accessTokenRequire');
+var client = require('../redisClient');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -27,7 +28,9 @@ router.patch('/:id', accessTokenRequire, function(req, res, next) {
 	db.User.findById(id).then(user => {
 		if (!user) throw new Error();
 		user.password = hashThePassword.cryptoThePassword(req.body.password)
-	}).then()
+	}).then(() => {
+		
+	})
 })
 
 module.exports = router;

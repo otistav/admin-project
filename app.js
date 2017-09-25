@@ -5,11 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var client = require('./redisClient');
-
 var index = require('./routes/index');
 var users = require('./routes/users');
-var refreshTokens = require('./routes/refreshTokens');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 var testRoute = require('./routes/testRoute');

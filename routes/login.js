@@ -10,11 +10,6 @@ var client = require('../redisClient')
 
 const HALF_A_YEAR = 60*60*24*180;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-
-});
-
 router.post('/', function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
@@ -23,7 +18,6 @@ router.post('/', function (req, res, next) {
       var access_token = jwt.sign({username: user.username, password: user.password}, secretAccess, {expiresIn: 30})
       var refresh_token = uuidv4();
       client.set(refresh_token, user.id, 'EX', HALF_A_YEAR);
-      console.log('access_token: ', access_token, 'refresh_token: ', refresh_token);
       res.send({ refresh_token: refresh_token, access_token: access_token });
     }
   })
