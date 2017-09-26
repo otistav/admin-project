@@ -1,17 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('User', {
+  var Permission = sequelize.define('Permission', {
     uuid: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    role_id: DataTypes.UUID,
-    username: {
-        type:DataTypes.STRING,
-        unique: true
-    },
-    password: DataTypes.STRING
+    permission_name: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {
@@ -19,5 +14,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  return User;
+  return Permission;
 };

@@ -1,5 +1,5 @@
 var crypto = require('crypto');
-var salt = require('../config/salt.json');
+var salt = require('../config/project_config.json');
 
 exports.cryptoThePassword = (password) => {
   let key = "Keyefqwdfodsdv&&&^^^9n";

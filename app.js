@@ -5,11 +5,20 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
+
 var users = require('./routes/users');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
-var testRoute = require('./routes/testRoute');
+var refreshTokens = require('./routes/refresh-tokens');
+const log4js = require('log4js');
+
+
+log4js.configure({
+  appenders: { debug: { type: 'file', filename: 'debug.log' } },
+  categories: { default: { appenders: ['debug'], level: 'trace' } }
+});
+ 
+const loggerr = log4js.getLogger('debug');
 
 
 var app = express();
@@ -27,12 +36,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use('/refresh-tokens', refreshTokens);
 app.use('/users', users);
-app.use('/refreshTokens', refreshTokens);
 app.use('/login', login);
 app.use('/logout', logout);
-app.use('/testRoute', testRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

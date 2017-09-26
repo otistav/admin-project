@@ -1,17 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('User', {
+  var RefreshToken = sequelize.define('RefreshToken', {
     uuid: {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    role_id: DataTypes.UUID,
-    username: {
-        type:DataTypes.STRING,
-        unique: true
+    refresh_token: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
     },
-    password: DataTypes.STRING
+    user_id: DataTypes.UUID
   }, {
     classMethods: {
       associate: function(models) {
@@ -19,5 +18,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  return User;
+  return RefreshToken;
 };
