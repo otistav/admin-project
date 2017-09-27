@@ -14,12 +14,12 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.post('/',accessTokenRequire, (req, res, next) => {
-  res.send('acceeeees')
-})
+router.post('/', accessTokenRequire, (req, res, next) => {
+  res.send('acceeeeess')
+});
 
 
-// Это все я перенесу в сервис позже.
+// TODO перенести "начинку" в отдельный сервис
 router.patch('/', function(req, res, next) {
   var refresh_token = req.body.refresh_token;
   db.RefreshToken.findOne({where: {refresh_token: refresh_token}}).then(data => {

@@ -19,5 +19,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+  User.associate = (models) => {
+    //TODO создать ассоциацию
+  };
   return User;
 };

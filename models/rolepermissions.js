@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var RolePermissions = sequelize.define('RolePermissions', {
+  var RolePermission = sequelize.define('RolePermission', {
     uuid: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -15,5 +15,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  return RolePermissions;
+  return RolePermission;
 };

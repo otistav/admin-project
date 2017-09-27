@@ -4,6 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var db = require('./models');
+const validator = require('express-validator');
+const roles = require('./routes/roles');
+
 
 
 var users = require('./routes/users');
@@ -20,7 +24,6 @@ log4js.configure({
  
 const loggerr = log4js.getLogger('debug');
 
-
 var app = express();
 
 
@@ -32,6 +35,7 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(validator());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,6 +44,7 @@ app.use('/refresh-tokens', refreshTokens);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/roles', roles);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

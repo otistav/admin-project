@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         // associations can be defined here
       }
     }
+
   });
+  Role.associate = (models) => {
+    console.log("ASSOCIATION");
+    //TODO изменить ассоциацию здесь
+    Role.belongsToMany(models.Permission, {as: 'Permissions', foreignKey: 'role_id', through: {model: models.RolePermission}});
+  };
   return Role;
 };

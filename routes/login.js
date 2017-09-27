@@ -15,9 +15,7 @@ log4js.configure({
 });
  
 const loggerr = log4js.getLogger('debug');
-
-const HALF_A_YEAR = 60*60*24*180;
-
+//TODO перенести начинку в отдельный сервис
 router.post('/', function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
