@@ -1,7 +1,7 @@
 var project_config = require('../config/project_config');
 var db = require('../models/index');
 var uuidv4 = require('uuid/v4');
-
+var jwt = require('jsonwebtoken');
 exports.refreshTokens = (refresh_token) => {
 
   return db.RefreshToken.findOne({where: {refresh_token: refresh_token}}).then(data => {
@@ -17,9 +17,6 @@ exports.refreshTokens = (refresh_token) => {
 
 checkValidation = (refreshTokenDate) => {
   console.log(Date.now() - refreshTokenDate);
-  if (Date.now() - refreshTokenDate < project_config.half_a_year)
-    return true;
-  else
-    return false
-}
+  return Date.now() - refreshTokenDate < project_config.half_a_year
+};
 

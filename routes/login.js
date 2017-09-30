@@ -18,15 +18,21 @@ const loggerr = log4js.getLogger('debug');
 router.post('/', function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
-  db.User.findOne({where: {username: username}, include: [{model: db.Role, include: [{model: db.Permission, all: true}]}]})
+  db.User.findOne({where: {username: username}, include: [{model: db.Role, include: [{all: true}]}]})
     .then(user => {
       console.log(user.Role.permissions, "<---------------------THIS IS USER");
       if (user && user.password === hashThePassword.cryptoThePassword(password)) {
         
         return db.RefreshToken.create({
           user_id: user.uuid
-        }).then(refresh_token => {
-            res.send({access_token: jwt.sign({user_id: user.uuid, permissions: user.Role.permissions}, secretAccess, {expiresIn: 180}), refresh_token: refresh_token.refresh_token, permissions: user.Role.permissions});
+        }).then(token => {
+          console.log(user);
+            res.send(
+              {
+                access_token: jwt.sign({user_id: user.uuid, permissions: user.Role.permissions}, secretAccess, {expiresIn: 180}),
+                refresh_token: token.refresh_token,
+                permissions: user.Role.permissions
+              });
           })
 
       }

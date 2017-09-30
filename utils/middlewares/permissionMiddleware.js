@@ -5,8 +5,8 @@ exports.getUserPermission = (req, res, next) => {
   console.log(req.baseUrl);
   var counter = 0;
   for (let i = 0; i< decoded.permissions.length; i++) {
-    if (project_config.permissions[req.baseUrl].indexOf(decoded.permissions[i].uuid !== -1))
-      console.log("YEEEES");
+    let permissions = project_config.permissions[req.baseUrl];
+    if (permissions.indexOf(decoded.permissions[i].uuid !== -1))
       counter++;
       break;
   }
