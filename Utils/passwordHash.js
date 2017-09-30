@@ -1,9 +1,8 @@
 var crypto = require('crypto');
-var salt = require('../config/project_config.json');
+var project_config = require('../config/project_config.json');
 
 exports.cryptoThePassword = (password) => {
-  let key = "Keyefqwdfodsdv&&&^^^9n";
-  return crypto.createHash('sha1').update(password+salt.salt).digest('hex');
+  return crypto.createHash('sha1').update(password+project_config.salt).digest('hex');
 
 };
 

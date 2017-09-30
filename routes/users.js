@@ -9,7 +9,7 @@ var userService = require('../services/userService');
 
 /* GET users listing. */
 router.get('/:id', (req, res, next) => {
-  db.User.findById(req.params.id,{include: [{model: db.Role, include: [{model: db.RolePermission, all: true}]}]}).then(user => {
+  db.User.findById(req.params.id,{include: [{model: db.Role, include: [{all: true}]}]}).then(user => {
     res.send(user);
   })
 });

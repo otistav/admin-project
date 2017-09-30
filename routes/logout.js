@@ -11,7 +11,7 @@ var uuidv4 = require('uuid/v4');
 router.get('/', function(req, res, next) {
 
 });
-
+//TODO made logout route
 router.post('/', function(req, res, next) {
   var token = req.body.refresh_token;
   res.send('successfuly logouted')

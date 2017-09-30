@@ -32,7 +32,7 @@ exports.createRole = (role_name, permissions) => {
 
 exports.updateRole = (role_name, new_permissions, role_id) => {
 
-  //TODO уточнить реализацию обновления и удаления ролей(что делать с полем "role_id" у таблицы Users)
+  //TODO уточнить реализацию обновления и удаления ролей(что делать с полем "role_id" у таблицы Users).
   return db.sequelize.transaction(t => {
     return db.Role.findById(role_id, {transaction: t}).then(role => {
       console.log("THIS IS ROLE +>>>>>>>>>>", role);

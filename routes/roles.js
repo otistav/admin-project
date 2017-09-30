@@ -6,7 +6,7 @@ const rolesService = require('../services/rolesService');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  db.Role.findAll({include: [{model: db.RolePermission, all: true}]}).then(role => {
+  db.Role.findAll({include: [{all: true}]}).then(role => {
     res.send(role);
   })
 

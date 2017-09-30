@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 const validator = require('express-validator');
 const roles = require('./routes/roles');
 const HTTPError = require('./errors/HTTPError');
+const passport = require('passport');
 
 
 
@@ -15,6 +16,7 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var refreshTokens = require('./routes/refresh-tokens');
 const log4js = require('log4js');
+var LocalStrategy = require('passport-local');
 
 
 log4js.configure({
@@ -39,12 +41,24 @@ app.use(validator());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/refresh-tokens', refreshTokens);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/roles', roles);
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    console.log("hellæ")
+  }
+));
+app.post('/loginn',
+  passport.authenticate('local', { failureRedirect: '/loginn' }),
+  function(req, res) {
+    res.send('hello');
+  });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
