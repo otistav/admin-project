@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   });
   Role.associate = (models) => {
     console.log("ASSOCIATION");
-    //TODO изменить ассоциацию здесь
-    Role.belongsToMany(models.Permission, {as: 'Permissions', foreignKey: 'role_id', through: {model: models.RolePermission}});
+    Role.belongsToMany(models.Permission, {through: models.RolePermission, as: 'permissions', foreignKey: 'role_id'});
+
   };
   return Role;
 };

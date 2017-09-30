@@ -15,5 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+  RolePermission.associate = (models) => {
+    console.log("ASSOCIATION");
+    // RolePermission.hasMany(models.Role, {foreignKey: 'uuid'} );
+    // RolePermission.hasMany(models.Permission, {foreignKey: 'uuid'});
+
+  };
   return RolePermission;
 };

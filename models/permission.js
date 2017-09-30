@@ -14,5 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+  Permission.associate = (models) => {
+    console.log("ASSOCIATION");
+    Permission.belongsToMany(models.Role, {through: models.RolePermission, as:'roles', foreignKey: 'permission_id'});
+
+  };
   return Permission;
 };

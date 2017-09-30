@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   User.associate = (models) => {
-    //TODO создать ассоциацию
+    User.belongsTo(models.Role, {foreignKey: 'role_id'});
   };
   return User;
 };

@@ -45,6 +45,9 @@ exports.updateRole = (role_name, new_permissions, role_id) => {
 
     })
   })
+};
 
+
+exports.deleteRole = (role_id) => {
 
 };

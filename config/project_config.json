@@ -1,6 +1,8 @@
 {
   "salt": "qwdfqwpofijr42",
   "half_a_year": 15768000000,
-  "secret_access_token_key": "asdfjqwergb12ff"
-
+  "secret_access_token_key": "asdfjqwergb12ff",
+  "permissions": {
+    "/refresh-tokens": ["a0eebc99-9c0b-4ef8-bb6d-6bb9bd380c41", "a0eabc99-9c0b-4ef8-bb6d-6bb9bd380c41"]
+  }
 }

@@ -4,22 +4,21 @@ var db = require('../models');
 var hashThePassword = require('../Utils/passwordHash');
 var accessTokenRequire = require('../Utils/middlewares/accessTokenRequire');
 const userValidator = require('../validators/userValidator');
+var userService = require('../services/userService');
 
 
 /* GET users listing. */
 router.get('/:id', (req, res, next) => {
-  console.log(req.baseUrl);
+  db.User.findById(req.params.id,{include: [{model: db.Role, include: [{model: db.RolePermission, all: true}]}]}).then(user => {
+    res.send(user);
+  })
 });
 
 router.post('/', function(req, res, next) {
   var hashPass = hashThePassword.cryptoThePassword(req.body.password);
 
-  db.User.create({
-    username: req.body.username,
-    password: hashPass,
-    role_id: req.body.role_id
-  }).then(() => {
-    res.status(200).send('user created!');
+  userService.createUser(req.body.username, hashPass, req.body.role_id).then((user) => {
+    res.status(200).send(user);
   }).catch(err => {
     next(err);
   })
@@ -28,14 +27,7 @@ router.post('/', function(req, res, next) {
 
 router.patch('/:id', accessTokenRequire, userValidator, function(req, res, next) {
   let id = req.params.id;
-  db.User.findById(id).then(user => {
-    if (!user) throw new Error();
-    user.username = req.body.username;
-    user.password = hashThePassword.cryptoThePassword(req.body.password);
-    return user.save();
-  }).then((user) => {
-    return db.RefreshToken.destroy({where: {user_id: user.uuid}})
-  }).then((result) => {
+  userService.editUserFields(id).then((result) => {
     res.send(result)
   })
 });
