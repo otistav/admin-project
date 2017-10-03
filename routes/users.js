@@ -7,7 +7,15 @@ const userValidator = require('../validators/userValidator');
 var userService = require('../services/userService');
 
 
-/* GET users listing. */
+router.get('/', (req, res, next) => {
+  db.User.findAll().then(users => {
+    res.send(users);
+  }).catch(err => {
+    next(err);
+  })
+});
+
+
 router.get('/:id', (req, res, next) => {
   db.User.findById(req.params.id,{include: [{model: db.Role, include: [{all: true}]}]}).then(user => {
     res.send(user);

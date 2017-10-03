@@ -11,7 +11,7 @@ var accessTokenRequire = require('../Utils/middlewares/accessTokenRequire');
 var permissionMiddleware = require('../Utils/middlewares/permissionMiddleware');
 
 
-/* GET users listing. */
+
 router.get('/', function(req, res, next) {
 
 });
@@ -24,7 +24,6 @@ router.post('/', accessTokenRequire, permissionMiddleware.getUserPermission, (re
 
 router.patch('/', function(req, res, next) {
   var refresh_token = req.body.refresh_token;
-  //TODO доделать сервис по обновлению токенов
   tokenService.refreshTokens(refresh_token).then(data => {
     return db.User.findById(data.user_id, {include: [{model: db.Role, include: [{all: true}]}]}).then(user => {
       res.send(

@@ -7,17 +7,24 @@ var secretRefresh = 'wrgbnw459t3nruqfd)';
 var hashThePassword = require('../Utils/passwordHash');
 var uuidv4 = require('uuid/v4');
 var passport = require('passport');
+var offerService = require('../services/offerService');
 
 
-router.get('/',passport.authenticate('vkontakte'), function(req, res, next) {
-  console.log(req.user);
-  console.log('hello');
-  res.render('hello')
+
+router.get('/', function(req, res, next) {
+
 });
-//TODO made logout route
+
+
 router.post('/', function(req, res, next) {
-  console.log(req.user, 'this is user hello fuck you');
-  res.send('hello')
+  offerService.useOffer(req.body.user_id, req.body.offer_id).then(data => {
+    res.send(data);
+  }).catch(err => {
+    next(err);
+  })
+
 });
+
+
 
 module.exports = router;

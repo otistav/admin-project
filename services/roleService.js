@@ -51,5 +51,15 @@ exports.updateRole = (role_name, new_permissions, role_id) => {
 
 
 exports.deleteRole = (role_id) => {
+  return db.sequelize.transaction(t => {
+    return db.User.findOne({where: {role_id: role_id}, transaction: t}).then(user => {
+      if (user) throw new Error();
+      return db.RolePermission.destroy({where : {role_id: role_id}, transaction: t})
+    }).then(() => {
+      return db.Role.findById(role_id, {transaction: t})
+    }).then((role) => {
+      return role.destroy({transaction: t})
+    })
+  })
 
 };
