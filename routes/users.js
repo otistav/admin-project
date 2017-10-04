@@ -17,27 +17,31 @@ router.get('/', (req, res, next) => {
 
 
 router.get('/:id', (req, res, next) => {
-  db.User.findById(req.params.id,{include: [{model: db.Role, include: [{all: true}]}]}).then(user => {
-    res.send(user);
-  })
+  db.User.findById(req.params.id,{include: [{model: db.Role, include: [{all: true}]}]})
+    .then(user => {
+      res.send(user);
+    })
 });
 
 router.post('/', function(req, res, next) {
   var hashPass = hashThePassword.cryptoThePassword(req.body.password);
 
-  userService.createUser(req.body.username, hashPass, req.body.role_id).then((user) => {
-    res.status(200).send(user);
-  }).catch(err => {
-    next(err);
-  })
+  userService.createUser(req.body.username, hashPass, req.body.role_id)
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch(err => {
+      next(err);
+    })
 });
 
 
 router.patch('/:id', accessTokenRequire, userValidator, function(req, res, next) {
   let id = req.params.id;
-  userService.editUserFields(id).then((result) => {
-    res.send(result)
-  })
+  userService.editUserFields(id)
+    .then((result) => {
+      res.send(result)
+    })
 });
 
 module.exports = router;

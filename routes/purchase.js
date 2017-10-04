@@ -17,11 +17,13 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-  offerService.useOffer(req.body.user_id, req.body.offer_id).then(data => {
-    res.send(data);
-  }).catch(err => {
-    next(err);
-  })
+  offerService.useOffer(req.body.user_id, req.body.offer_id)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
+    });
 
 });
 
