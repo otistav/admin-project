@@ -14,7 +14,7 @@ router.get('/',passport.authenticate('vkontakte'), function(req, res, next) {
   console.log('hello');
   res.render('hello')
 });
-//TODO made logout route
+//TODO make logout route
 router.post('/', function(req, res, next) {
   console.log(req.user, 'this is user hello fuck you');
   res.send('hello')

@@ -20,9 +20,10 @@ const login = require('./routes/login');
 const logout = require('./routes/logout');
 const refreshTokens = require('./routes/refresh-tokens');
 const roles = require('./routes/roles');
-
+const scores = require('./routes/scores');
 
 const app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,6 +58,7 @@ app.use('/logout', logout);
 app.use('/roles', roles);
 app.use('/offers', offers);
 app.use('/purchase', purchase);
+app.use('/scores', scores);
 // app.use('/auth/vkontakte/callback', vkcallback);
 
 // catch 404 and forward to error handler

@@ -26,7 +26,11 @@ exports.create = (options) => {
         latitude: geolocation[0].latitude,
         longitude: geolocation[0].longitude,
         percentage_discount: options.percentage_discount,
-        currency_discount: options.currency_discount
+        currency_discount: options.currency_discount,
+        percentage_discount_limit: options.percentage_discount_limit,
+        currency_discount_limit: options.currency_discount_limit,
+        cost: options.cost,
+        useBonus: options.useBonus //TODO edit field
       })
     })
 };

@@ -36,11 +36,11 @@ router.post('/', function(req, res, next) {
 });
 
 
-router.patch('/:id', accessTokenRequire, userValidator, function(req, res, next) {
+router.patch('/:id',  userValidator, function(req, res, next) {
   let id = req.params.id;
-  userService.editUserFields(id)
+  userService.editUserFields(id, req.body.password, req.body.username)
     .then((result) => {
-      res.send(result)
+      res.sendStatus(200)
     })
 });
 
