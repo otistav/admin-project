@@ -19,7 +19,6 @@ router.get('/callback', passport.authenticate('vk', {
 
 router.get('/success', (req, res, next) => {
   res.cookie('access',jwt.sign({}, 'adsfasd'));//TODO изменить на jwt корректный
-  console.log(res.cookie, 'this is access');
   res.render(__dirname + 'index.html');
 });
 

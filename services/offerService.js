@@ -30,7 +30,7 @@ exports.create = (options) => {
         percentage_discount_limit: options.percentage_discount_limit,
         currency_discount_limit: options.currency_discount_limit,
         cost: options.cost,
-        useBonus: options.useBonus //TODO edit field
+        use_bonus: options.use_bonus
       })
     })
 };
@@ -79,10 +79,19 @@ exports.edit = (offer_id, options) => {
             offer.percentage_discount = null;
             offer.currency_discount = options.currency_discount;
           }
+          if (options.currency_discount_limit) {
+            offer.currency_discount_limit = options.currency_discount_limit;
+            offer.percentage_discount_limit = null;
+          }
+          if (options.percentage_discount_limit) {
+            offer.currency_discount_limit = null;
+            offer.percentage_discount_limit = options.percentage_discount_limit;
+          }
           if (geocode) {
             offer.latitude = geocode[0].latitude;
             offer.langitude = geocode[0].langitude;
           }
+          if (options.useBonus) offer.useBonus = options.useBonus;
           return offer.save();
         })
     })

@@ -15,5 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+  CustomerOffer.associate = (models) => {
+    CustomerOffer.belongsTo(models.User, {as: 'Customer', foreignKey: 'customer_id'});
+    CustomerOffer.belongsTo(models.Offer, {foreignKey: 'offer_id'});
+  };
   return CustomerOffer;
 };

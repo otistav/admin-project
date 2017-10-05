@@ -12,12 +12,12 @@ var passport = require('passport');
 router.get('/',passport.authenticate('vkontakte'), function(req, res, next) {
   console.log(req.user);
   console.log('hello');
-  res.render('hello')
+  res.render('hello');
 });
 //TODO make logout route
 router.post('/', function(req, res, next) {
   console.log(req.user, 'this is user hello fuck you');
-  res.send('hello')
+  res.send('hello');
 });
 
 module.exports = router;

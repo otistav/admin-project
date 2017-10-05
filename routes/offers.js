@@ -1,12 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
-var jwt = require('jsonwebtoken');
-var secretAccess = 'asdfjqwergb12ff';
-var secretRefresh = 'wrgbnw459t3nruqfd)';
-var hashThePassword = require('../Utils/passwordHash');
-var uuidv4 = require('uuid/v4');
-var passport = require('passport');
 var offerService = require('../services/offerService');
 const multer = require('multer');
 
@@ -25,7 +19,7 @@ const upload = multer({ storage: storage });
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 
-router.post('/:id',upload.single('imageupload'), function (req, res, next) {
+router.post('/:id',upload.single('imageupload'), function (req, res, next) {    //TODO  изменить загрузку картинок
   db.Offer.findById(req.params.id)
     .then(offer => {
       offer.image = req.file.path;

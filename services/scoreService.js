@@ -11,7 +11,7 @@ exports.putScore = (user_id, game_id, value) => {
 };
 
 
-exports.calculateBonusDiscount = (user_id) => {
+exports.calculateBonusDiscount = (user_id) => {       //TODO разобраться с сервисом и этой функцией особенно
   return db.Score.findAll({where: {user_id: user_id}})
     .then(scores => {
       var totalScore = calculateTotal(scores);

@@ -6,7 +6,7 @@ var secretAccess = 'asdfjqwergb12ff';
 var secretRefresh = 'wrgbnw459t3nruqfd)';
 var hashThePassword = require('../Utils/passwordHash');
 var uuidv4 = require('uuid/v4');
-
+//TODO вынести в сервис
 router.post('/', function (req, res, next) {
   var username = req.body.username;
   var password = req.body.password;

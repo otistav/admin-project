@@ -17,9 +17,9 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post('/', accessTokenRequire, permissionMiddleware.getUserPermission, (req, res, next) => {
-  res.send('access');
-});
+// router.post('/', accessTokenRequire, permissionMiddleware.getUserPermission, (req, res, next) => {
+//   res.send('access');
+// });
 
 
 router.patch('/', function(req, res, next) {

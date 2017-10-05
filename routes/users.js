@@ -4,8 +4,8 @@ var db = require('../models');
 var hashThePassword = require('../Utils/passwordHash');
 var accessTokenRequire = require('../Utils/middlewares/accessTokenRequire');
 const userValidator = require('../validators/userValidator');
-var userService = require('../services/userService');
-
+const userService = require('../services/userService');
+const dealService = require('../services/dealService');
 
 router.get('/', (req, res, next) => {
   db.User.findAll().then(users => {
@@ -21,6 +21,13 @@ router.get('/:id', (req, res, next) => {
     .then(user => {
       res.send(user);
     })
+});
+
+
+router.get('/:id/deals', (req, res, next) => {
+  dealService.getUserDeals(req.params.id).then(deals => {
+    res.send(deals);
+  })
 });
 
 router.post('/', function(req, res, next) {

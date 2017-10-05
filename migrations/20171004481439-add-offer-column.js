@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('Offers', 'сost', {type: Sequelize.STRING})
+    return queryInterface.addColumn('Offers', 'cost', {type: Sequelize.INTEGER})
   },
 
   down: (queryInterface, Sequelize) => {

@@ -17,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     latitude: DataTypes.FLOAT,
     longitude: DataTypes.FLOAT,
     percentage_discount: DataTypes.INTEGER,
-    currency_discount: DataTypes.INTEGER
+    currency_discount: DataTypes.INTEGER,
+    cost: DataTypes.INTEGER,
+    use_bonus: DataTypes.BOOLEAN,
+    percentage_discount_limit: DataTypes.INTEGER,
+    currency_discount_limit: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate: function(models) {
@@ -28,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Offer.associate = (models) => {
     console.log("ASSOCIATION");
-
+    Offer.belongsToMany(models.User, {through: models.CustomerOffer, as: 'customers', foreignKey: 'offer_id'})
   };
   return Offer;
 };

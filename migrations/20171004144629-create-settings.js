@@ -1,5 +1,7 @@
 'use strict';
 module.exports = {
+
+  //TODO изменить структуру таблицы. Не уверен, что эта корректна
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Settings', {
       id: {

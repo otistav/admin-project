@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('Offers', 'useBonus', {type: Sequelize.BOOLEAN})
+    return queryInterface.addColumn('Offers', 'use_bonus', {type: Sequelize.BOOLEAN})
   },
 
   down: (queryInterface, Sequelize) => {
