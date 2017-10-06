@@ -3,7 +3,7 @@ const scoreUtil = require('../utils/scoreUtil');
 //TODO оптимизировать функции.
 
 exports.calculatePercentageDiscount = (scores, offer, should_sum_discount) => {
-  let totalScore = scoreUtil.calculateTotal(scores);
+  let totalScore = scoreUtil.calculateTotal(scores, 'month');
   let bonus_discount = 1+ totalScore/10040;
   if (should_sum_discount) {
     if (offer.use_bonus) {
@@ -29,7 +29,7 @@ exports.calculatePercentageDiscount = (scores, offer, should_sum_discount) => {
 
 
 exports.calculateCurrencyDiscount = (scores, offer, should_sum_discount) => {
-  let totalScore = scoreUtil.calculateTotal(scores);
+  let totalScore = scoreUtil.calculateTotal(scores, 'month');
   let bonus_percentage_discount = 1+ totalScore/1000;//считаем скидку в процентах
   let bonus_discount = offer.cost / bonus_percentage_discount;// считаем скидку в валюте
   if (should_sum_discount) {

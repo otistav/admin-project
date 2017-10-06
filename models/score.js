@@ -20,5 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
+  Score.associate = (models) => {
+    Score.belongsTo(models.Game, {foreignKey: 'game_id'});
+    Score.belongsTo(models.User, {foreignKey: 'user_id'});
+  };
   return Score;
 };

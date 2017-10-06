@@ -31,7 +31,7 @@
     "pg-hstore": "^2.3.2",
     "pug": "~2.0.0-beta11",
     "redis": "^2.8.0",
-    "sequelize": "^4.8.4",
+    "sequelize": "4.13.5",
     "sequelize-cli": "^3.0.0-3",
     "serve-favicon": "~2.4.2",
     "uuid": "^3.1.0"
