@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = (models) => {
     User.belongsTo(models.Role, {foreignKey: 'role_id'});
-    User.belongsToMany(models.Offer, {through: models.CustomerOffer, as: 'offers', foreignKey: 'customer_id'})
+    User.belongsToMany(models.Offer, {through: models.Deal, as: 'offers', foreignKey: 'customer_id'})
   };
   return User;
 };

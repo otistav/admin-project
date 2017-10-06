@@ -31,7 +31,7 @@ router.get('/:id/deals', (req, res, next) => {
 });
 
 router.post('/', function(req, res, next) {
-  var hashPass = hashThePassword.cryptoThePassword(req.body.password);
+  const hashPass = hashThePassword.cryptoThePassword(req.body.password);
 
   userService.createUser(req.body.username, hashPass, req.body.role_id)
     .then((user) => {

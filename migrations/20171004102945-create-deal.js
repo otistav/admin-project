@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('CustomerOffers', {
+    return queryInterface.createTable('Deals', {
       uuid: {
         allowNull: false,
         primaryKey: true,
@@ -21,6 +21,7 @@ module.exports = {
           key: 'uuid'
         }
       },
+      final_discount: Sequelize.INTEGER,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -32,6 +33,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('CustomerOffers');
+    return queryInterface.dropTable('Deals');
   }
 };

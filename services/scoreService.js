@@ -1,5 +1,6 @@
 const db = require('../models/index');
-var project_config = require('../config/project_config');
+const project_config = require('../config/project_config');
+const scoreUtil = require('../utils/scoreUtil');
 
 
 exports.putScore = (user_id, game_id, value) => {
@@ -11,28 +12,12 @@ exports.putScore = (user_id, game_id, value) => {
 };
 
 
-exports.calculateBonusDiscount = (user_id) => {       //TODO разобраться с сервисом и этой функцией особенно
+exports.calculateUserScore = (user_id) => {
   return db.Score.findAll({where: {user_id: user_id}})
     .then(scores => {
-      var totalScore = calculateTotal(scores);
-      console.log("total score", totalScore);
-      if (totalScore > 1000) {
-        return 5 + totalScore/1000
-      }
-      else
-        return 0
+      const totalScore = scoreUtil.calculateTotal(scores);
+      return {totalScore: totalScore}
     })
 };
 
 
-
-calculateTotal = (scores) => {
-  var totalScore = 0;
-  scores.forEach(score => {
-    console.log('THIS IS DIFFERENCE', Date.now() - score.updatedAt);
-    if (Date.now() - score.updatedAt < project_config.one_month) {
-      totalScore += score.value
-    }
-  });
-  return totalScore;
-};

@@ -32,7 +32,7 @@ router.post('/:id',upload.single('imageupload'), function (req, res, next) {    
 
 
 router.get('/:id', function (req, res, next) {
-  offerService.findOne(req.params.id)
+  offerService.findOne(req.params.id, req.query.include_discount, req.query.user_id)
     .then(offer => {
       res.send(offer);
     })
@@ -43,7 +43,7 @@ router.get('/:id', function (req, res, next) {
 
 
 router.get('/', function (req, res, next) {
-  offerService.findAll()
+  offerService.findAll(req.query.include_discount, req.query.user_id)
     .then(offers => {
       res.send(offers);
     })

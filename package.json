@@ -14,6 +14,7 @@
     "debug": "~2.6.3",
     "envalid": "4.0.2",
     "express": "~4.15.2",
+    "express-query-boolean": "1.0.0",
     "express-session": "1.15.6",
     "express-validator": "4.2.1",
     "js-beautify": "^1.6.14",

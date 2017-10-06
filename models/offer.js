@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Offer.associate = (models) => {
     console.log("ASSOCIATION");
-    Offer.belongsToMany(models.User, {through: models.CustomerOffer, as: 'customers', foreignKey: 'offer_id'})
+    Offer.belongsToMany(models.User, {through: models.Deal, as: 'customers', foreignKey: 'offer_id'})
   };
   return Offer;
 };

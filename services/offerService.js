@@ -1,6 +1,7 @@
 const project_config = require('../config/project_config');
 const db = require('../models/index');
 const Nodegeocoder = require('node-geocoder');
+const dealUtil = require('../utils/dealUtil');
 
 var options = {
   provider: 'google',
@@ -36,19 +37,55 @@ exports.create = (options) => {
 };
 
 
-exports.findOne = (offer_id) => {
-  return db.Offer.findById(offer_id)
+exports.findOne = (offer_id, include_discount, user_id) => {
+  if (!include_discount) return db.Offer.findById(offer_id);
+  return Promise.all([
+    db.Offer.findById(offer_id),
+    db.Score.findAll({where: {user_id: user_id}}),
+    db.Settings.findOne({where: {key: 'sum_discount'}})
+  ])
+    .then(([offer, scores, setting]) => {
+      let final_discount;
+      if (offer.percentage_discount) {
+        final_discount = dealUtil.calculatePercentageDiscount(scores, offer, Number(setting.value));
+      }
+      if (offer.currency_discount) {
+        final_discount = dealUtil.calculateCurrencyDiscount(scores, offer, Number(setting.value));
+      }
+      return {offer, final_discount: final_discount}
+    })
+
 };
 
 
-exports.findAll = () => {
-  return db.Offer.findAll();
+exports.findAll = (include_discount, user_id) => {
+  console.log(typeof include_discount, 'this is includediscount');
+  if (!include_discount) return db.Offer.findAll();
+  return Promise.all([
+    db.Offer.findAll(),
+    db.Score.findAll({where: {user_id: user_id}}),
+    db.Settings.findOne({where: {key: 'sum_discount'}})
+  ])
+    .then(([offers, scores, setting]) => {
+      let offersWithDiscount = [];
+      offers.forEach(offer => {
+        let final_discount;
+        if (offer.percentage_discount) {
+          final_discount = dealUtil.calculatePercentageDiscount(scores, offer, Number(setting.value));
+        }
+        if (offer.currency_discount) {
+          final_discount = dealUtil.calculateCurrencyDiscount(scores, offer, Number(setting.value));
+        }
+        offersWithDiscount.push({offer, final_discount: final_discount});
+      });
+      return offersWithDiscount
+    })
 };
 
 
 exports.delete = (offer_id) => {
   return db.sequelize.transaction(t => {
-    return db.CustomerOffer.destroy({where: {offer_id: offer_id}, transaction: t})
+    return db.Deal.destroy({where: {offer_id: offer_id}, transaction: t})
       .then((result) => {
         return db.Offer.destroy({where: {uuid: offer_id}})
       })
@@ -103,17 +140,31 @@ exports.useOffer = (user_id, offer_id) => {
   return db.sequelize.transaction(t => {
     return db.Offer.findById(offer_id, {transaction: t})
       .then(offer => {
-        if (!offer) throw new Error();
-        return db.CustomerOffer.findAll({where: {offer_id: offer_id, customer_id: user_id}, transaction: t})
-          .then(customerOffers => {
-            if (offer.disposable && customerOffers.length !== 0) throw new Error('Offer is disposable'); //TODO добавить кастомную ошибку
+        return db.Deal.findAll({where: {offer_id: offer_id, customer_id: user_id}, transaction: t, include: [{all:true}]})
+          .then(deals => {
+            if (offer.disposable && deals.length !== 0) throw new Error('offer is disposable');
+            return Promise.all([
+              db.Offer.findById(offer_id),
+              db.Score.findAll({where: {user_id:user_id}}, {transaction: t}),
+              db.Settings.findOne({where: {key: 'sum_discount'}})
+            ])
+          })
+          .then(([offer, scores, setting]) => {
+            let final_discount;
+            if (offer.percentage_discount) {
+              final_discount = dealUtil.calculatePercentageDiscount(scores, offer, Number(setting.value));
+            }
+            if (offer.currency_discount) {
+              final_discount = dealUtil.calculateCurrencyDiscount(scores, offer, Number(setting.value));
+            }
+            return db.Deal.create({
+              customer_id: user_id,
+              offer_id: offer_id,
+              final_discount: final_discount
+            })
           })
       })
-      .then(() => {
-        return db.CustomerOffer.create({
-          customer_id: user_id,
-          offer_id: offer_id}, {transaction: t})
-    })
+
   })
 };
 
