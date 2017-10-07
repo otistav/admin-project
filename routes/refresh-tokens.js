@@ -43,8 +43,6 @@ router.patch('/', function(req, res, next) {
               });
             })
         })
-
-
     })
     .catch(err => {
       next(err);

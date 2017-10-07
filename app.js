@@ -25,7 +25,7 @@ const scores = require('./routes/scores');
 const games = require('./routes/games');
 const deals = require('./routes/deals');
 const statistic = require('./routes/statistic');
-
+//TODO добавить валидацию в роуты, добавить кастомные ошибки 
 const app = express();
 
 

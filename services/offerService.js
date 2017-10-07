@@ -11,7 +11,7 @@ var options = {
 };
 const geocoder = Nodegeocoder(options);
 
-exports.create = (options) => {
+exports.create = (options) => {                           //создание предложения
 
   return Promise.resolve()
     .then(() => {
@@ -40,7 +40,7 @@ exports.create = (options) => {
 
 exports.findOne = (offer_id, include_discount, user_id) => {
   if (!include_discount) return db.Offer.findById(offer_id);
-  if (should_sum.date && should_sum.value && Date.now() - should_sum.date < project_config.one_minute*10) {
+  if (should_sum.date && should_sum.value && Date.now() - should_sum.date < project_config.one_minute*10) {             //если настройки из модуля не старше десяти минут, то берем их оттуда
     return Promise.all([
       db.Offer.findById(offer_id),
       db.Score.findAll({where: {user_id: user_id}}),
@@ -48,7 +48,7 @@ exports.findOne = (offer_id, include_discount, user_id) => {
       .then(([offer, scores]) => {
         let final_discount;
         if (offer.percentage_discount) {
-          final_discount = dealUtil.calculatePercentageDiscount(scores, offer, Number(should_sum.value));
+          final_discount = dealUtil.calculatePercentageDiscount(scores, offer, Number(should_sum.value));               //ищем счет и предложение и считаем процентную скидку или валютную скидку
         }
         if (offer.currency_discount) {
           final_discount = dealUtil.calculateCurrencyDiscount(scores, offer, Number(should_sum.value));
@@ -56,7 +56,7 @@ exports.findOne = (offer_id, include_discount, user_id) => {
         return {offer, final_discount: final_discount}
       })
   }
-  else {
+  else {                                                                                                                //иначе запрашиваем из базы
     return Promise.all([
       db.Offer.findById(offer_id),
       db.Score.findAll({where: {user_id: user_id}}),
@@ -182,12 +182,12 @@ exports.edit = (offer_id, options) => {
 
 exports.useOffer = (user_id, offer_id) => {
   return db.sequelize.transaction(t => {
-    return db.Offer.findById(offer_id, {transaction: t})
+    return db.Offer.findById(offer_id, {transaction: t})                                                                        //ищем предложение
       .then(offer => {
-        return db.Deal.findAll({where: {offer_id: offer_id, customer_id: user_id}, transaction: t, include: [{all:true}]})
+        return db.Deal.findAll({where: {offer_id: offer_id, customer_id: user_id}, transaction: t, include: [{all:true}]})      //по предложению ищем сделки этого юзера связанные с этим предложением
           .then(deals => {
-            if (offer.disposable && deals.length !== 0) throw new Error('offer is disposable');
-            return Promise.all([
+            if (offer.disposable && deals.length !== 0) throw new Error('offer is disposable');                                 // если сделка уже есть и предложение одноразовое, то выбрасываем ошибку
+            return Promise.all([                                                                                                // получаем предлоежние, счета юзера в игре для подсчета бонусной скидки и настройки
               db.Offer.findById(offer_id),
               db.Score.findAll({where: {user_id:user_id}}, {transaction: t}),
               db.Settings.findOne({where: {key: 'sum_discount'}})

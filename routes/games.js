@@ -15,14 +15,4 @@ router.get('/:id', function (req, res, next) {
     })
 });
 
-
-router.post('/', (req, res, next) => {
-  setting.date = Date.now();
-  res.send('hello')
-});
-
-router.get('/', (req, res, next) => {
-  res.send({date: setting.date, value: setting.value} )
-});
-
 module.exports = router;

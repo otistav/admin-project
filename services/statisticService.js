@@ -3,7 +3,7 @@ const db = require('../models');
 
 exports.statisticCounter = (target, user_id) => {
   let date = formatDate(new Date());
-  return db.Statistic.findOrCreate({where: {date: date, user_id: user_id}, defaults: { token_refresh_count: 0, basic_auth_counter: 0, social_network_auth_count: 0 } })
+  return db.Statistic.findOrCreate({where: {date: date, user_id: user_id}, defaults: { token_refresh_count: 0, basic_auth_counter: 0, social_network_auth_count: 0 } })   //инкрементирует статистику target
     .then(([statistic, created]) => {
       statistic.increment(target)
     })
@@ -11,7 +11,7 @@ exports.statisticCounter = (target, user_id) => {
 
 
 
-function formatDate(date) {
+function formatDate(date) {                   //переводит дату в формат дд.мм.гг
 
   var dd = date.getDate();
   if (dd < 10) dd = '0' + dd;
