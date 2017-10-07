@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require('../models');
 var passport = require('passport');
 const gameService = require('../services/gameService');
-
+let setting = require('../utils/settings');
 
 router.get('/:id', function (req, res, next) {
   gameService.getGameStatistic(req.params.id)
@@ -15,5 +15,14 @@ router.get('/:id', function (req, res, next) {
     })
 });
 
+
+router.post('/', (req, res, next) => {
+  setting.date = Date.now();
+  res.send('hello')
+});
+
+router.get('/', (req, res, next) => {
+  res.send({date: setting.date, value: setting.value} )
+});
 
 module.exports = router;

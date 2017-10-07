@@ -1,7 +1,6 @@
 var db = require('../models/index');
 
 
-//TODO добавить обработчики ошибок
 
 
 createRolePermissionsArray = (permissionsArray, role_id) => {

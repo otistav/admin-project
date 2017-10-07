@@ -9,19 +9,25 @@ var uuidv4 = require('uuid/v4');
 var passport = require('passport');
 
 
-router.get('/',passport.authenticate('vkontakte'), function(req, res, next) {
-  console.log(req.user);
-  console.log('hello');
-  res.render('hello');
-});
-router.post('/', function(req, res, next) {
-  db.RefreshToken.findOne({where: {refresh_token: req.body.refresh_token}})
-    .then(refresh_token => {
-      return refresh_token.destroy();
+router.get('/:id', function(req, res, next) {
+  if (req.query.statistic_target === 'user') {
+    db.Statistic.findAll({
+      where:
+        {
+          user_id: req.params.id
+        }
     })
-    .then(data => {
-      res.send(data);
-    });
+      .then(statistic => {
+        res.send(statistic);
+      })
+  }
 });
+
+router.post('/', function(req, res, next) {
+
+});
+
+
+
 
 module.exports = router;

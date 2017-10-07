@@ -1,6 +1,5 @@
 const scoreUtil = require('../utils/scoreUtil');
 
-//TODO оптимизировать функции.
 
 exports.calculatePercentageDiscount = (scores, offer, should_sum_discount) => {
   let totalScore = scoreUtil.calculateTotal(scores, 'month');

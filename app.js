@@ -24,6 +24,7 @@ const roles = require('./routes/roles');
 const scores = require('./routes/scores');
 const games = require('./routes/games');
 const deals = require('./routes/deals');
+const statistic = require('./routes/statistic');
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use('/purchase', purchase);
 app.use('/scores', scores);
 app.use('/deals', deals);
 app.use('/games', games);
+app.use('/statistic', statistic);
 // app.use('/auth/vkontakte/callback', vkcallback);
 
 // catch 404 and forward to error handler

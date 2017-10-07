@@ -5,6 +5,7 @@
   "one_month": 2592000000,
   "one_week": 604800000,
   "one_day": 86400000,
+  "one_minute": 60000,
   "permissions": {
     "/refresh-tokens": ["a0eebc99-9c0b-4ef8-bb6d-6bb9bd380c41", "a0eabc99-9c0b-4ef8-bb6d-6bb9bd380c41"]
   }

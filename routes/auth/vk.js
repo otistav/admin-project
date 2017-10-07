@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require('../models');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
+const statisticService = require('../../services/statisticService');
 
 
 router.get('/',passport.authenticate('vk', {
@@ -18,8 +19,12 @@ router.get('/callback', passport.authenticate('vk', {
 
 
 router.get('/success', (req, res, next) => {
-  res.cookie('access',jwt.sign({}, 'adsfasd'));//TODO изменить на jwt корректный
-  res.render(__dirname + 'index.html');
+  statisticService.statisticCounter('social_network_auth_count')
+    .then(() => {
+      res.cookie('access',jwt.sign({}, 'adsfasd'));//TODO изменить на jwt корректный
+      res.render(__dirname + 'index.html');
+    })
+
 });
 
 module.exports = router;
