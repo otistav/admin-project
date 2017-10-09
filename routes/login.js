@@ -7,6 +7,7 @@ var secretRefresh = 'wrgbnw459t3nruqfd)';
 var hashThePassword = require('../Utils/passwordHash');
 var uuidv4 = require('uuid/v4');
 const statisticService = require('../services/statisticService');
+const ValidationError = require('../errors/validationErrors/userValidationError');
 
 router.post('/', function (req, res, next) {
   var username = req.body.username;
@@ -28,9 +29,8 @@ router.post('/', function (req, res, next) {
               })
           })
 
-
       }
-      else throw new Error('invalid login or pass');
+      else throw new ValidationError('wrong password or username')
     })
     .catch(err => {
       next(err);

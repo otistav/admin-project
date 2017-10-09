@@ -27,7 +27,7 @@ router.patch('/', function(req, res, next) {
   var refresh_token = req.body.refresh_token;
   tokenService.refreshTokens(refresh_token)
     .then(data => {
-      return statisticService.statisticCounter('token_refresh_count', data.user_id)
+      return statisticService.statisticCounter('token_refresh_count', data.user_id)//Именно здесь расчитывается статистика TODO узнать, правильно ли это. Возможно, надо вынести в middleware, но есть нюансы
         .then(() => {
           return db.User.findById(data.user_id, {include: [{model: db.Role, include: [{all: true}]}]})
             .then(user => {
@@ -43,30 +43,14 @@ router.patch('/', function(req, res, next) {
               });
             })
         })
+
+        .catch(err => {
+          next(err);
+        })
     })
-    .catch(err => {
-      next(err);
-    })
-});
+  });
 
 
 
-
-
-
-
-function formatDate(date) {
-
-  var dd = date.getDate();
-  if (dd < 10) dd = '0' + dd;
-
-  var mm = date.getMonth() + 1;
-  if (mm < 10) mm = '0' + mm;
-
-  var yy = date.getFullYear() % 100;
-  if (yy < 10) yy = '0' + yy;
-
-  return dd + '.' + mm + '.' + yy;
-}
 
 module.exports = router;

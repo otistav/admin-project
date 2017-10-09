@@ -30,7 +30,7 @@ router.get('/:id/deals', (req, res, next) => {
   })
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', userValidator, function(req, res, next) {
   const hashPass = hashThePassword.cryptoThePassword(req.body.password);
 
   userService.createUser(req.body.username, hashPass, req.body.role_id)
@@ -48,6 +48,21 @@ router.patch('/:id',  userValidator, function(req, res, next) {
   userService.editUserFields(id, req.body.password, req.body.username)
     .then((result) => {
       res.sendStatus(200)
+    })
+});
+
+
+router.delete('/:id', function (req, res, next) {
+  db.User.findById(req.params.id)
+    .then(user => {
+      if (!user) throw new Error();
+      return user.destroy();
+    })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      next(err);
     })
 });
 

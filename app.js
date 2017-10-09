@@ -25,13 +25,16 @@ const scores = require('./routes/scores');
 const games = require('./routes/games');
 const deals = require('./routes/deals');
 const statistic = require('./routes/statistic');
-//TODO добавить валидацию в роуты, добавить кастомные ошибки 
+const vk_auth = require('./routes/auth/vk');
+//TODO добавить валидацию в роуты, добавить кастомные ошибки
 const app = express();
+var cors = require('cors')
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -41,6 +44,11 @@ app.use(boolParser());
 app.use(validator());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors());
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', "*");
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'keyboard cat',
@@ -67,6 +75,7 @@ app.use('/scores', scores);
 app.use('/deals', deals);
 app.use('/games', games);
 app.use('/statistic', statistic);
+app.use('/vk_auth', vk_auth);
 // app.use('/auth/vkontakte/callback', vkcallback);
 
 // catch 404 and forward to error handler
@@ -78,20 +87,19 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   if (err instanceof HTTPError) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     console.log(err.message);
     res.status(err.status);
     res.json(err);
-  } else {
+  }
+  else {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    res.status(500);
+    res.json(err)
   }
 
 });
