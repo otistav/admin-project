@@ -24,7 +24,7 @@ router.post('/', function (req, res, next) {
                 res.send({
                   access_token: jwt.sign({user_id: user.uuid, permissions: user.Role.permissions}, secretAccess, {expiresIn: 180}),
                   refresh_token: token.refresh_token,
-                  permissions: user.Role.permissions
+                  user: user
                 });
               })
           })

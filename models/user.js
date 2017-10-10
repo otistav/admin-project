@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
         type:DataTypes.STRING,
         unique: true
     },
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    first_name: DataTypes.STRING,
+    second_name: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

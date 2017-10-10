@@ -16,24 +16,26 @@ router.get('/', (req, res, next) => {
 });
 
 
-router.get('/:id', (req, res, next) => {
-  db.User.findById(req.params.id,{include: [{model: db.Role, include: [{all: true}]}]})
+router.get('/:id',accessTokenRequire, (req, res, next) => {
+  db.User.findById(req.body.user_info.user_id)
     .then(user => {
+      if (!user) throw new Error('user doesnt exist');
       res.send(user);
     })
 });
 
 
 router.get('/:id/deals', (req, res, next) => {
-  dealService.getUserDeals(req.params.id).then(deals => {
-    res.send(deals);
-  })
+  dealService.getUserDeals(req.params.id)
+    .then(deals => {
+      res.send(deals);
+    })
 });
 
 router.post('/', userValidator, function(req, res, next) {
   const hashPass = hashThePassword.cryptoThePassword(req.body.password);
-
-  userService.createUser(req.body.username, hashPass, req.body.role_id)
+  console.log(req.body, 'this is body')
+  userService.createUser(req.body.username, hashPass, req.body.role_id, req.body.first_name, req.body.second_name)
     .then((user) => {
       res.status(200).send(user);
     })
@@ -45,7 +47,7 @@ router.post('/', userValidator, function(req, res, next) {
 
 router.patch('/:id',  userValidator, function(req, res, next) {
   let id = req.params.id;
-  userService.editUserFields(id, req.body.password, req.body.username)
+  userService.editUserFields(id, req.body.password, req.body.username, req.body.first_name, req.body.second_name)
     .then((result) => {
       res.sendStatus(200)
     })

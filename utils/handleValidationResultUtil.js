@@ -2,7 +2,6 @@ const expressValidator = require('express-validator');
 
 
 function handleValidationResult(req, res, next) {
-  console.log("HEYHEYHEY")
   req.getValidationResult()
     .then(function (result) {
       if (!result.isEmpty()) {
