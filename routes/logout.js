@@ -4,7 +4,6 @@ var db = require('../models');
 var jwt = require('jsonwebtoken');
 var secretAccess = 'asdfjqwergb12ff';
 var secretRefresh = 'wrgbnw459t3nruqfd)';
-var hashThePassword = require('../Utils/passwordHash');
 var uuidv4 = require('uuid/v4');
 var passport = require('passport');
 

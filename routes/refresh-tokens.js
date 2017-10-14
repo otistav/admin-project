@@ -4,11 +4,10 @@ var db = require('../models');
 var jwt = require('jsonwebtoken');
 var project_config = require('../config/project_config');
 var secretRefresh = 'wrgbnw459t3nruqfd)';
-var hashThePassword = require('../Utils/passwordHash');
 var uuidv4 = require('uuid/v4');
 var tokenService = require('../services/tokenService');
-var accessTokenRequire = require('../Utils/middlewares/accessTokenRequire');
-var permissionMiddleware = require('../Utils/middlewares/permissionMiddleware');
+var accessTokenRequire = require('../utils/middlewares/accessTokenRequire');
+var permissionMiddleware = require('../utils/middlewares/permissionMiddleware');
 const statisticService = require('../services/statisticService');
 
 
