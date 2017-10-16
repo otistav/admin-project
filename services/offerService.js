@@ -16,17 +16,16 @@ exports.create = (options) => {                           //создание п�
   return Promise.resolve()
     .then(() => {
       console.log('geocode');
-      return geocoder.geocode(options.location)
+      if (options && options.location)
+        return geocoder.geocode(options.location);
     })
     .then(geolocation => {
       console.log('this is geolocetion', geolocation);
       return db.Offer.create({
         name: options.name,
         description: options.description,
-        image: options.image,
+        image: options.image.substr(9, options.image.length),
         disposable: options.disposable,
-        latitude: geolocation[0].latitude,
-        longitude: geolocation[0].longitude,
         percentage_discount: options.percentage_discount,
         currency_discount: options.currency_discount,
         percentage_discount_limit: options.percentage_discount_limit,
@@ -141,7 +140,7 @@ exports.delete = (offer_id) => {
 exports.edit = (offer_id, options) => {
   return Promise.resolve()
     .then(() => {
-      if (options.location)
+      if (options && options.location)
         return geocoder.geocode(options.location);
     })
     .then(geocode => {
@@ -150,7 +149,7 @@ exports.edit = (offer_id, options) => {
           if (!offer) throw new Error('offer doesnt exist');
           if (options.name) offer.name = options.name;
           if (options.description) offer.description = options.description;
-          if (options.image) offer.image = options.image;
+          if (options.image) offer.image = options.image.substr(9, options.image.length);
           if (options.disposable) offer.disposable = options.disposable;
           if (options.percentage_discount) {
             offer.currency_discount = null;
@@ -172,6 +171,7 @@ exports.edit = (offer_id, options) => {
             offer.latitude = geocode[0].latitude;
             offer.langitude = geocode[0].langitude;
           }
+          if (options.cost) offer.cost = options.cost;
           if (options.useBonus) offer.useBonus = options.useBonus;
           return offer.save();
         })

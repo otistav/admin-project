@@ -27,10 +27,11 @@ const deals = require('./routes/deals');
 const statistic = require('./routes/statistic');
 const vk_auth = require('./routes/auth/vk');
 const userByToken = require('./routes/user-by-token');
+const files = require('./routes/files');
 //TODO добавить валидацию в роуты, добавить кастомные ошибки
 const app = express();
-var cors = require('cors')
-
+var cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +41,7 @@ app.set('view engine', 'pug');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+// app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(boolParser());
 app.use(validator());
@@ -83,6 +85,7 @@ app.use('/games', games);
 app.use('/statistic', statistic);
 app.use('/vk_auth', vk_auth);
 app.use('/user_by_token', userByToken);
+app.use('/files', files);
 // app.use('/auth/vkontakte/callback', vkcallback);
 
 // catch 404 and forward to error handler

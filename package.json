@@ -15,6 +15,7 @@
     "debug": "2.6.9",
     "envalid": "4.0.2",
     "express": "4.15.5",
+    "express-fileupload": "0.3.0",
     "express-query-boolean": "1.0.0",
     "express-session": "1.15.6",
     "express-validator": "4.2.1",

@@ -2,32 +2,19 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var offerService = require('../services/offerService');
-const multer = require('multer');
 
 
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '../public/images/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname)
-  }
-});
-
-const upload = multer({ storage: storage });
-//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-router.post('/:id',upload.single('imageupload'), function (req, res, next) {    //TODO  изменить загрузку картинок
-  db.Offer.findById(req.params.id)
-    .then(offer => {
-      offer.image = req.file.path;
-      return offer.save()
-    })
-    .then(offer => {
-      res.send(offer)
-    })
+router.post('/:id', function (req, res, next) {    //TODO  изменить загрузку картинок
+  console.log(req.file);
+  res.send({data: 'ok'});
+  // db.Offer.findById(req.params.id)
+  //   .then(offer => {
+  //     offer.image = req.file.path;
+  //     return offer.save()
+  //   })
+  //   .then(offer => {
+  //     res.send(offer)
+  //   })
 });
 
 
@@ -65,8 +52,10 @@ router.post('/', function (req, res, next) {
 
 
 router.patch('/:id', function (req, res, next) {
+  console.log(req.params.id);
   offerService.edit(req.params.id, req.body.options)
     .then(result => {
+
       res.send(result);
     })
     .catch(err => {
