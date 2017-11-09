@@ -13,9 +13,12 @@ const multer = require('multer');
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public/images/')
+    console.log('this is file', file);
+    // cb(null, '../public/images/')
+    cb(null, './public/images/')
   },
   filename: function (req, file, cb) {
+    file.originalname = uuidv4().toString() + '.png';
     cb(null, file.originalname)
   }
 });
@@ -24,6 +27,7 @@ const upload = multer({ storage: storage });
 //'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
 router.post('/', upload.single('image'), function(req, res, next) {
+  console.log('heyheyhey')
   res.send(req.file.path);
 });
 

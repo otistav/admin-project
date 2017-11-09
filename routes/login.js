@@ -22,7 +22,7 @@ router.post('/', function (req, res, next) {
             })
               .then(token => {
                 res.send({
-                  access_token: jwt.sign({user_id: user.uuid, permissions: user.Role.permissions}, secretAccess, {expiresIn: 180}),
+                  access_token: jwt.sign({user_id: user.uuid, permissions: user.Role.permissions}, secretAccess, {expiresIn: 30}),
                   refresh_token: token.refresh_token,
                   user: user
                 });

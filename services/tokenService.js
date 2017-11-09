@@ -17,7 +17,5 @@ exports.refreshTokens = (refresh_token) => {
 
 
 checkValidation = (refreshTokenDate) => {
-  console.log(Date.now() - refreshTokenDate);
   return Date.now() - refreshTokenDate < project_config.half_a_year
 };
-

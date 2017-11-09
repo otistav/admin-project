@@ -23,6 +23,7 @@ router.get('/', function(req, res, next) {
 
 
 router.patch('/', function(req, res, next) {
+  console.log("THIS IS BODY", req.body);
   var refresh_token = req.body.refresh_token;
   tokenService.refreshTokens(refresh_token)
     .then(data => {
@@ -30,13 +31,14 @@ router.patch('/', function(req, res, next) {
         .then(() => {
           return db.User.findById(data.user_id, {include: [{model: db.Role, include: [{all: true}]}]})
             .then(user => {
+              console.log(user,'hey this is user');
               res.send({
                 access_token: jwt.sign({
                     user_id: data.user_id,
                     permissions: user.Role.permissions
                   },
                   project_config.secret_access_token_key,
-                  {expiresIn: 180}),
+                  {expiresIn: 30}),
                 refresh_token: data.refresh_token,
                 permissions: user.Role.permissions
               });

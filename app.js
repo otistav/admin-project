@@ -8,6 +8,8 @@ const boolParser = require('express-query-boolean');
 const validator = require('express-validator');
 const passport = require('passport');
 const session = require('express-session');
+var methodOverride = require('method-override');
+
 
 const HTTPError = require('./errors/HTTPError');
 const passportConfig = require('./utils/passportConfig');
@@ -37,7 +39,19 @@ const fileUpload = require('express-fileupload');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-
+app.use(methodOverride());
+app.use(cors());
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Origin', "*");
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+  if ('OPTIONS' == req.method) {
+    res.send(200);
+  } else {
+    next();
+  }
+});
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -47,16 +61,11 @@ app.use(boolParser());
 app.use(validator());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors('*'));
 // app.use(function(req, res, next) {
 //   res.setHeaders('Access-Control-Allow-Origin', "*");
 //   next();
 // });
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'keyboard cat',

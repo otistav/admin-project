@@ -4,8 +4,9 @@ const Nodegeocoder = require('node-geocoder');
 const dealUtil = require('../utils/dealUtil');
 let should_sum = require('../utils/settings');
 
-var options = {
+let options = {
   provider: 'google',
+  apiKey: 'AIzaSyBRJ_TiMMuNlgXaA_QNA0AJSn074PumPAY',
   httpAdapter: 'https', // Default
   formatter: null         // 'gpx', 'string', ...
 };
@@ -133,11 +134,11 @@ exports.delete = (offer_id) => {
         return db.Offer.destroy({where: {uuid: offer_id}})
       })
   })
-
 };
 
-
+//https://test.whoer.net/vpn/api/info?code=KEYI1MI126ZU7
 exports.edit = (offer_id, options) => {
+  console.warn('hey, code can reach this step')
   return Promise.resolve()
     .then(() => {
       if (options && options.location)
@@ -146,10 +147,11 @@ exports.edit = (offer_id, options) => {
     .then(geocode => {
       return db.Offer.findById(offer_id)
         .then(offer => {
+          console.log(options.image, 'this is image');
           if (!offer) throw new Error('offer doesnt exist');
           if (options.name) offer.name = options.name;
           if (options.description) offer.description = options.description;
-          if (options.image) offer.image = options.image.substr(9, options.image.length);
+          if (options.image) offer.image = options.image.substr(6, options.image.length);
           if (options.disposable) offer.disposable = options.disposable;
           if (options.percentage_discount) {
             offer.currency_discount = null;
@@ -169,7 +171,7 @@ exports.edit = (offer_id, options) => {
           }
           if (geocode) {
             offer.latitude = geocode[0].latitude;
-            offer.langitude = geocode[0].langitude;
+            offer.longitude = geocode[0].longitude;
           }
           if (options.cost) offer.cost = options.cost;
           if (options.useBonus) offer.useBonus = options.useBonus;
@@ -211,4 +213,3 @@ exports.useOffer = (user_id, offer_id) => {
 
   })
 };
-

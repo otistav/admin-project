@@ -7,8 +7,7 @@ const statisticService = require('../../services/statisticService');
 
 
 router.get('/',passport.authenticate('vk', {
-  successRedirect: 'http://localhost:3000/success',
-  failureRedirect: '/'
+  successRedirect: 'http://localhost:3000/vk_auth/callback'
 }));
 
 // router.get('/', (req, res, next) => {

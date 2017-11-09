@@ -25,7 +25,7 @@ exports.sumStatisticByDate = () => {
 
 
 
-function formatDate(date) {                   //переводит дату в формат дд.мм.гг
+function formatDate(date) {                   //TODO изменить на OnlyDate
 
   var dd = date.getDate();
   if (dd < 10) dd = '0' + dd;

@@ -2,15 +2,17 @@
 var db = require('../models/index');
 var hashThePassword = require('../utils/passwordHash');
 
-exports.editUserFields = (id, password, login, first_name, second_name) => {
+exports.editUserFields = (id, password, login, first_name, second_name, role_id) => {
+
   return db.sequelize.transaction(t => {
     return db.User.findById(id, {transaction: t})
       .then(user => {
         if (!user) throw new Error();
-        user.username = login;
-        user.password = hashThePassword.cryptoThePassword(password);
-        user.first_name = first_name;
-        user.second_name = second_name;
+        if (login ) user.username = login;
+        if (password) user.password = hashThePassword.cryptoThePassword(password);
+        if (role_id) user.role_id = role_id;
+        if (first_name) user.first_name = first_name;
+        if (second_name) user.second_name = second_name;
         return user.save({transaction: t});
       })
       .then((user) => {
