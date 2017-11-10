@@ -10,6 +10,7 @@ const passport = require('passport');
 const session = require('express-session');
 var methodOverride = require('method-override');
 
+//TODO изменить структуру запросов
 
 const HTTPError = require('./errors/HTTPError');
 const passportConfig = require('./utils/passportConfig');

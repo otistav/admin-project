@@ -7,9 +7,9 @@ var secretRefresh = 'wrgbnw459t3nruqfd)';
 var uuidv4 = require('uuid/v4');
 var passport = require('passport');
 var statisticService = require('../services/statisticService');
+const gameService = require('../services/gameService');
 
-
-router.get('/:id', function(req, res, next) {
+router.get('/users/:id', function(req, res, next) {
   db.Statistic.findAll({
     where:
       {
@@ -26,7 +26,21 @@ router.get('/:id', function(req, res, next) {
 
 
 router.get('/', function (req, res, next) {
-  statisticService.sumStatisticByDate()
+  console.log(req.query)
+  let groupBy = req.query.groupBy;
+  let groupByMethod;
+  switch(groupBy) {
+    case 'user': {
+      groupByMethod = statisticService.groupStatisticByUser; //TODO write method to group by users
+      break;
+    }
+    case 'date': {
+      groupByMethod = statisticService.groupStatisticByDate;
+      break;
+    }
+  }
+  console.log(groupByMethod);
+  groupByMethod()
     .then(result => {
       res.send(result);
     })

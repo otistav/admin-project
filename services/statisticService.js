@@ -10,7 +10,7 @@ exports.statisticCounter = (target, user_id) => {
 };
 
 
-exports.sumStatisticByDate = () => {
+exports.groupStatisticByDate = () => {
   return db.Statistic.findAll({
     attributes: ['date',
       [db.sequelize.fn('SUM', db.sequelize.col('basic_auth_counter')), 'auth_count'],
@@ -22,6 +22,19 @@ exports.sumStatisticByDate = () => {
     order: db.sequelize.fn('MAX', db.sequelize.col('createdAt'))
   })
 };
+
+exports.groupStatisticByUser = () => {
+  return db.Statistic.findAll({
+    attributes: ['user_id',
+      [db.sequelize.fn('SUM', db.sequelize.col('basic_auth_counter')), 'auth_count'],
+      [db.sequelize.fn('SUM', db.sequelize.col('token_refresh_count')), 'token_count'],
+      [db.sequelize.fn('SUM', db.sequelize.col('social_network_auth_count')), 'social_count'],
+      [db.sequelize.fn('MAX', db.sequelize.col('createdAt')), 'createdAtn']
+    ],
+    group: ['user_id']
+
+  })
+}
 
 
 

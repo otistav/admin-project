@@ -9,7 +9,7 @@ var tokenService = require('../services/tokenService');
 var accessTokenRequire = require('../utils/middlewares/accessTokenRequire');
 var permissionMiddleware = require('../utils/middlewares/permissionMiddleware');
 const statisticService = require('../services/statisticService');
-
+const tokenExistingError = require('../errors/tokenRequireError');
 
 
 router.get('/', function(req, res, next) {
@@ -24,7 +24,10 @@ router.get('/', function(req, res, next) {
 
 router.patch('/', function(req, res, next) {
   console.log("THIS IS BODY", req.body);
+
   var refresh_token = req.body.refresh_token;
+  if (!refresh_token)
+    throw new tokenExistingError(); 
   tokenService.refreshTokens(refresh_token)
     .then(data => {
       return statisticService.statisticCounter('token_refresh_count', data.user_id)//Именно здесь расчитывается статистика TODO узнать, правильно ли это. Возможно, надо вынести в middleware, но есть нюансы
