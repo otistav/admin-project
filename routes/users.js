@@ -44,7 +44,7 @@ router.get('/:id',accessTokenRequire, (req, res, next) => {
 });
 
 
-router.get('/:id/deals', (req, res, next) => {
+router.get('/:id/deals', accessTokenRequire, (req, res, next) => {
   dealService.getUserDeals(req.params.id)
     .then(deals => {
       res.send(deals);
@@ -64,7 +64,7 @@ router.post('/', userValidator, (req, res, next) =>  {
 });
 
 
-router.patch('/:id',  (req, res, next) => {
+router.patch('/:id', accessTokenRequire,  (req, res, next) => {
   let id = req.params.id;
   console.log("HELLLO BROTHER")
   userService.editUserFields(id, req.body.password, req.body.username, req.body.first_name, req.body.second_name, req.body.role_id)
@@ -75,7 +75,7 @@ router.patch('/:id',  (req, res, next) => {
 });
 
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', accessTokenRequire, (req, res, next) => {
   db.User.findById(req.params.id)
     .then(user => {
       if (!user) throw new Error();

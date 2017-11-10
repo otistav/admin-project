@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 var db = require('../models');
 var offerService = require('../services/offerService');
+var accessTokenRequire = require('../utils/middlewares/accessTokenRequire');
 
-
-router.post('/:id', function (req, res, next) {    //TODO  изменить загрузку картинок
+router.post('/:id', accessTokenRequire, function (req, res, next) {    //TODO  изменить загрузку картинок
   console.log(req.file);
   res.send({data: 'ok'});
   // db.Offer.findById(req.params.id)
@@ -18,7 +18,7 @@ router.post('/:id', function (req, res, next) {    //TODO  изменить за
 });
 
 
-router.get('/:id', function (req, res, next) {
+router.get('/:id', accessTokenRequire, function (req, res, next) {
   offerService.findOne(req.params.id, req.query.include_discount, req.query.user_id)
     .then(offer => {
       res.send(offer);
@@ -29,7 +29,7 @@ router.get('/:id', function (req, res, next) {
 });
 
 
-router.get('/', function (req, res, next) {
+router.get('/', accessTokenRequire, function (req, res, next) {
   offerService.findAll(req.query.include_discount, req.query.user_id)
     .then(offers => {
       res.send(offers);
@@ -40,7 +40,7 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.post('/', function (req, res, next) {
+router.post('/', accessTokenRequire, function (req, res, next) {
   offerService.create(req.body.options)
     .then(offer => {
       res.send(offer);
@@ -51,7 +51,7 @@ router.post('/', function (req, res, next) {
 });
 
 
-router.patch('/:id', function (req, res, next) {
+router.patch('/:id', accessTokenRequire, function (req, res, next) {
   console.log(req.params.id);
   offerService.edit(req.params.id, req.body.options)
     .then(result => {

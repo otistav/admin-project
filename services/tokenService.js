@@ -8,7 +8,7 @@ exports.refreshTokens = (refresh_token) => {
   return db.RefreshToken.findOne({where: {refresh_token: refresh_token}})
     .then(data => {
       if (!data) throw new Error();
-      if(!checkValidation(data.updatedAt)) throw new Error();
+      if(!checkValidation(data.updatedAt)) throw new Error(); //TODO add custom error
 
       data.refresh_token = uuidv4();
       return data.save();
