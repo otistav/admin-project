@@ -29,6 +29,7 @@ const games = require('./routes/games');
 const deals = require('./routes/deals');
 const statistic = require('./routes/statistic');
 const vk_auth = require('./routes/auth/vk');
+const reports = require('./routes/reports');
 const userByToken = require('./routes/user-by-token');
 const files = require('./routes/files');
 //TODO добавить валидацию в роуты, добавить кастомные ошибки
@@ -96,6 +97,7 @@ app.use('/statistic', statistic);
 app.use('/vk_auth', vk_auth);
 app.use('/user_by_token', userByToken);
 app.use('/files', files);
+app.use('/reports', reports);
 // app.use('/auth/vkontakte/callback', vkcallback);
 
 // catch 404 and forward to error handler

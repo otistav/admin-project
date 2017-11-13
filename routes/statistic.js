@@ -26,12 +26,11 @@ router.get('/users/:id', function(req, res, next) {
 
 
 router.get('/', function (req, res, next) {
-  console.log(req.query)
   let groupBy = req.query.groupBy;
   let groupByMethod;
   switch(groupBy) {
     case 'user': {
-      groupByMethod = statisticService.groupStatisticByUser; //TODO write method to group by users
+      groupByMethod = statisticService.groupStatisticByUser;
       break;
     }
     case 'date': {

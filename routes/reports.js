@@ -5,24 +5,15 @@ var passport = require('passport');
 const gameService = require('../services/gameService');
 let setting = require('../utils/settings');
 
-router.get('/', function (req, res, next) {
-  db.Game.findAll()
-    .then(games => {
-      res.send(games);
+router.get('/games/:id', function (req, res, next) {
+  gameService.getGameStatistic(req.params.id)
+    .then(game_statistic => {
+      res.send(game_statistic);
     })
     .catch(err => {
       next(err);
     })
 })
 
-router.get('/:id', function (req, res, next) {
-  db.Game.findById(req.params.id)
-    .then(game => {
-      res.send(game);
-    })
-    .catch(err => {
-      next(err);
-    })
-});
 
 module.exports = router;
