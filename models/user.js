@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.belongsTo(models.Role, {foreignKey: 'role_id'});
     User.belongsToMany(models.Offer, {through: models.Deal, as: 'offers', foreignKey: 'customer_id'});
-    User.hasMany(models.Score, {foreignKey: 'user_id', as: 'scores'})
+    User.hasMany(models.Score, {foreignKey: 'user_id', as: 'scores'});
+    User.hasMany(models.Deal, {foreignKey: 'customer_id', as: 'deals'});
   };
   return User;
 };
