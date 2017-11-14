@@ -18,13 +18,29 @@ router.get('/games/:id', function (req, res, next) {
 
 
 router.get('/purchases/', function (req, res, next) {
-  reportsService.getTopCustomers()
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      next(err);
-    })
+  console.log(req.query, 'this is ')
+  if (req.query.type === "q") {
+    reportsService.getTopCustomersByNumberOfPurchases()
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        next(err);
+      })
+  }
+  else if (req.query.type === "cash") {
+    reportsService.getTopCustomersBySpendedMoney()
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        next(err);
+      })
+  }
+  else {
+    throw new Error()
+  }
+
 })
 
 
