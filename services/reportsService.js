@@ -24,12 +24,13 @@ exports.getTopCustomersByNumberOfPurchases = () => {
 
 }
 
-exports.getTopCustomersBySpendedMoney = () => {
+
+exports.getTopCustomersBySpendedMoney = (min_date, max_date) => {
   return db.sequelize.query('SELECT' +
     '"User"."username",' +
     ' SUM("offers"."cost") AS "total_cost"' +
-    ' FROM "Users" AS "User" LEFT OUTER JOIN ( "Deals" AS "offers->Deal" INNER JOIN "Offers" ' +
+    ' FROM "Users" AS "User"  LEFT OUTER JOIN ( "Deals" AS "offers->Deal" INNER JOIN "Offers" ' +
       'AS "offers" ON "offers"."uuid" = "offers->Deal"."offer_id") ' +
-      ' ON "User"."uuid" = "offers->Deal"."customer_id"  GROUP BY "User"."username" ;',
-  { type: db.sequelize.QueryTypes.SELECT})
+      ' ON "User"."uuid" = "offers->Deal"."customer_id" WHERE "offers->Deal"."createdAt" < :date  GROUP BY "User"."username";',
+  { type: db.sequelize.QueryTypes.SELECT, replacements: {date: new Date()}})
 }

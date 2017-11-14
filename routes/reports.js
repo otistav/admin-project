@@ -18,9 +18,10 @@ router.get('/games/:id', function (req, res, next) {
 
 
 router.get('/purchases/', function (req, res, next) {
-  console.log(req.query, 'this is ')
+  console.log(req.query, 'this is ');
+
   if (req.query.type === "q") {
-    reportsService.getTopCustomersByNumberOfPurchases()
+    reportsService.getTopCustomersByNumberOfPurchases(req.query.date)
       .then(data => {
         res.send(data);
       })
@@ -29,7 +30,7 @@ router.get('/purchases/', function (req, res, next) {
       })
   }
   else if (req.query.type === "cash") {
-    reportsService.getTopCustomersBySpendedMoney()
+    reportsService.getTopCustomersBySpendedMoney(req.query.date)
       .then(data => {
         res.send(data);
       })
